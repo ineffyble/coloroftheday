@@ -1,0 +1,14 @@
+{
+  "name": "coloroftheday",
+  "version": "1.0.0",
+  "description": "Little bot with a color each day",
+  "main": "index.js",
+  "scripts": {
+    "post": "node index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cohost": "^0.0.2",
+    "node-fetch": "^3.2.6"
+  }
+}

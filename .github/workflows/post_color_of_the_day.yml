@@ -1,0 +1,15 @@
+name: Post Color of the Day
+on:
+  schedule:
+    - cron: '0 0 * * *'
+env:
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+jobs:
+  Post-Color-of-the-Day:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: yarn
+      - name: Post
+        run: yarn post
