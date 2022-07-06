@@ -29,7 +29,7 @@ const get_random_named_color_near = async (color) => {
         blocks: [{
           type: 'markdown',
           markdown: {
-            content: `<div style="width: 100%; height: 200px; background: #${colorValue}" />`,
+            content: `<div style="width: 100%; height: 200px; background: ${colorValue}" />`,
           },
         }],
         cws: [],
