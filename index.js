@@ -15,9 +15,10 @@ const get_random_named_color_near = async (color) => {
 
 (async function() {
     let user = new cohost.User();
-    await user.login(process.env.USERNAME, process.env.PASSWORD);
+    await user.login(process.env.COHOST_USERNAME, process.env.COHOST_PASSWORD);
 
-    let [ _, __, project ] = await user.getProjects();
+    let projects = await user.getProjects();
+    let project = projects.find(p => p.handle === 'coloroftheday');
 
     const randomColor = random_hex_color_code();
     const [colorName, colorValue] = await get_random_named_color_near(randomColor);

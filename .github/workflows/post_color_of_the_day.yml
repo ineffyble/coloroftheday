@@ -4,8 +4,8 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 env:
-  USERNAME: ${{ secrets.USERNAME }}
-  PASSWORD: ${{ secrets.PASSWORD }}
+  COHOST_USERNAME: ${{ secrets.USERNAME }}
+  COHOST_PASSWORD: ${{ secrets.PASSWORD }}
 jobs:
   Post-Color-of-the-Day:
     runs-on: ubuntu-latest
