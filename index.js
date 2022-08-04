@@ -1,16 +1,22 @@
-const fetch = require("node-fetch");
+const fs = require("fs");
 const cohost = require("cohost");
 
-//#Source https://bit.ly/2neWfJ2 
-const random_hex_color_code = () => {
-  let n = (Math.random() * 0xfffff * 1000000).toString(16);
-  return n.slice(0, 6);
-};
+const titleCase = (str) => {
+  return str.toLowerCase().split(' ').map((word) => {
+    return (word.charAt(0).toUpperCase() + word.slice(1));
+  }).join(' ');
+}
 
-const get_random_named_color_near = async (color) => {
-  let req = await fetch(`https://www.thecolorapi.com/id?format=json&hex=${color}`);
-  let res = await req.json();
-  return [res.name.value, res.name.closest_named_hex];
+const get_random_color = () => {
+  const data = fs.readFileSync("color.names.txt", "utf-8");
+  const colors = data.split("\n").filter(d => !d.startsWith("#"));
+  const color = colors[Math.floor(Math.random()*colors.length)];
+  let [_, name, __, r, g, b, ___, hex] = color.split(" ");
+  const tags = color.split(" ").pop().split(":");
+  if (!name.startsWith('PMS')) {
+    name = titleCase(name.replace(/_/g, ' '));
+  }
+  return [name, hex, tags];
 };
 
 (async function() {
@@ -20,8 +26,7 @@ const get_random_named_color_near = async (color) => {
     let projects = await user.getProjects();
     let project = projects.find(p => p.handle === 'coloroftheday');
 
-    const randomColor = random_hex_color_code();
-    const [colorName, colorValue] = await get_random_named_color_near(randomColor);
+    const [colorName, colorValue, tags] = get_random_color();
 
     await cohost.Post.create(project, {
         postState: 1,
@@ -34,7 +39,6 @@ const get_random_named_color_near = async (color) => {
           },
         }],
         cws: [],
-        tags: ["coloroftheday"],
+        tags: ["coloroftheday", ...tags],
     });
-
 })();
